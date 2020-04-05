@@ -7,15 +7,15 @@ function TestHttpClient:testRedirectURL()
     local http_client = require('http.client')
 
     local c = http_client.new()
+    c:set_request_default_opts{
+        ssl_verifypeer = false,
+        ssl_verifyhost = false,
+    }
     local resp, err, errcode
 
     -- Send first request and receive redirect
     resp, err, errcode = c:send_request(
-        c:new_request{
-            url = 'https://example.com/redirect',
-            ssl_verifypeer = false,
-            ssl_verifyhost = false,
-        }
+        c:new_request{ url = 'https://example.com/redirect' }
     )
     lu.assertEquals(nil, err, 'response#1')
     lu.assertEquals(302, resp.status_code, 'response#1 status_code')
@@ -30,11 +30,7 @@ function TestHttpClient:testRedirectURL()
 
     -- Follow redirect
     resp, err, errcode = c:send_request(
-        c:new_request{
-            url = redirect_url,
-            ssl_verifypeer = false,
-            ssl_verifyhost = false,
-        }
+        c:new_request{ url = redirect_url }
     )
     lu.assertEquals(nil, err, 'response#2')
     lu.assertEquals(200, resp.status_code, 'response#2 status_code')
@@ -51,8 +47,6 @@ yayyayyay
             method = 'POST',
             url = 'https://example.com/post',
             body = body,
-            ssl_verifypeer = false,
-            ssl_verifyhost = false,
         }
     )
     lu.assertEquals(nil, err, 'response#3')

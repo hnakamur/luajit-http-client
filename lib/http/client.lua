@@ -18,8 +18,23 @@ function _M.new()
     }, mt)
 end
 
+function _M.set_request_default_opts(self, opts)
+    local default_opts = {}
+    for k, v in pairs(opts) do
+        default_opts[k] = v
+    end
+    self.request_default_opts = default_opts
+end
+
 function _M.new_request(self, opts)
-    return request.new(opts)
+    local req_opts = {}
+    for k, v in pairs(self.request_default_opts) do
+        req_opts[k] = v
+    end
+    for k, v in pairs(opts) do
+        req_opts[k] = v
+    end
+    return request.new(req_opts)
 end
 
 --- Send request synchronously.
