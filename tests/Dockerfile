@@ -11,6 +11,13 @@ RUN apt-get update \
 RUN apt-get install -y libcurl4 \
  && ln -s libcurl.so.4 /usr/lib/x86_64-linux-gnu/libcurl.so
 
+RUN openssl req -new -newkey rsa:2048 -sha1 -x509 -nodes \
+    -set_serial 1 \
+    -days 365 \
+    -subj "/C=JP/ST=Osaka/L=Osaka City/CN=example.com" \
+    -out /etc/nginx/example.com.crt \
+    -keyout /etc/nginx/example.com.key
+
 COPY tests/etc/nginx/ /etc/nginx/
 COPY lib/ vendor/ /usr/local/luajit-http-client/
 COPY tests/test.lua /usr/local/luajit-http-client-test/

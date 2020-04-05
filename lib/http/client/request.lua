@@ -12,7 +12,9 @@ function _M.new(opts)
         method = string.upper(opts.method or 'GET'),
         url = opts.url,
         header = opts.header or header.new(),
-        body = opts.body
+        body = opts.body,
+        ssl_verifypeer = opts.ssl_verifypeer,
+        ssl_verifyhost = opts.ssl_verifyhost,
     }, mt)
 end
 

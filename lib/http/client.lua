@@ -64,15 +64,17 @@ function _M.send_request(self, request)
     end
 
     local opts = {
-        share = self.share,
-        post = (request.method == 'POST'),
-        url = request.url,
         dns_use_global_cache = true,
         followlocation = false,
-        httpheader = request.header:to_opt(),
-        readfunction = readfunction,
         headerfunction = headerfunction,
-        writefunction = writefunction
+        httpheader = request.header:to_opt(),
+        post = (request.method == 'POST'),
+        readfunction = readfunction,
+        share = self.share,
+        ssl_verifypeer = request.ssl_verifypeer,
+        ssl_verifyhost = request.ssl_verifyhost,
+        url = request.url,
+        writefunction = writefunction,
     }
     local e = curl.easy(opts)
     local _, err, errcode = e:perform()

@@ -1,4 +1,7 @@
 #!/bin/bash
+
+echo '127.0.0.1 example.com' >> /etc/hosts
+
 nginx -g 'daemon off;' &
 nginx_pid=$!
 

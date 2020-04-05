@@ -11,7 +11,11 @@ function TestHttpClient:testRedirectURL()
 
     -- Send first request and receive redirect
     resp, err, errcode = c:send_request(
-        c:new_request{ url = 'http://localhost/redirect' }
+        c:new_request{
+            url = 'https://example.com/redirect',
+            ssl_verifypeer = false,
+            ssl_verifyhost = false,
+        }
     )
     lu.assertEquals(nil, err, 'response#1')
     lu.assertEquals(302, resp.status_code, 'response#1 status_code')
@@ -22,11 +26,15 @@ function TestHttpClient:testRedirectURL()
     --     print('response#1 header=', line)
     -- end
     local redirect_url = resp:redirect_url()
-    lu.assertEquals('http://localhost/hello', redirect_url, 'response#1 redirect_url')
+    lu.assertEquals('https://example.com/hello', redirect_url, 'response#1 redirect_url')
 
     -- Follow redirect
     resp, err, errcode = c:send_request(
-        c:new_request{ url = redirect_url }
+        c:new_request{
+            url = redirect_url,
+            ssl_verifypeer = false,
+            ssl_verifyhost = false,
+        }
     )
     lu.assertEquals(nil, err, 'response#2')
     lu.assertEquals(200, resp.status_code, 'response#2 status_code')
@@ -41,8 +49,10 @@ yayyayyay
     resp, err, errcode = c:send_request(
         c:new_request{
             method = 'POST',
-            url = 'http://localhost/post',
-            body = body
+            url = 'https://example.com/post',
+            body = body,
+            ssl_verifypeer = false,
+            ssl_verifyhost = false,
         }
     )
     lu.assertEquals(nil, err, 'response#3')
