@@ -14,7 +14,8 @@ function _M.new()
     return setmetatable({
         share = curl.share{
             share = 'cookie'
-        }
+        },
+        request_default_opts = {}
     }, mt)
 end
 
